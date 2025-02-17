@@ -102,37 +102,61 @@ def create_pdf(summary_text):
     return buffer.getvalue()
 
 # Streamlit App UI
-st.title("YouTube Video Summarizer 🎥📄")
-st.markdown("Extract and summarize from YouTube videos.")
+st.sidebar.title("VidSage")
+option = st.sidebar.selectbox("Select Page", ["Video Summarizer", "Video Analyzer"])
 
-# Input fields
-youtube_video_url = st.text_input("Enter YouTube Video URL")
-sum_length = st.slider("Enter Summary Length (words)", min_value=100, max_value=5000, step=100, value=100)
+if option == "Video Summarizer":
+    st.title("YouTube Video Summarizer 🎥📄")
+    st.markdown("Extract and summarize from YouTube videos.")
 
-if st.button("Generate Summary"):
-    if not youtube_video_url:
-        st.warning("Please enter a valid YouTube URL.")
-    elif not validate_youtube_url(youtube_video_url):
-        st.error("Invalid YouTube URL! Please enter a valid YouTube video link.")
-    else:
-        vid_id = video_id(youtube_video_url)
-        
-        # Custom progress indicator
-        progress_text = st.empty()
-        progress_bar = st.progress(0)
-        
-        transcript = extract_transcript(vid_id, progress_text)
-        summary = summarize_transcript(transcript, sum_length, progress_bar, progress_text)
+    # Input fields
+    youtube_video_url = st.text_input("Enter YouTube Video URL")
+    sum_length = st.slider("Enter Summary Length (words)", min_value=100, max_value=5000, step=100, value=100)
 
-        # Display summary in markdown for better formatting
-        st.subheader("Summary")
-        st.markdown(summary, unsafe_allow_html=True)  # Allows HTML for better formatting
-        
-        # Add download PDF button
-        pdf = create_pdf(summary)
-        st.download_button(
-            label="Download Summary as PDF",
-            data=pdf,
-            file_name="summary.pdf",
-            mime="application/pdf"
-        )
+    if st.button("Generate Summary"):
+        if not youtube_video_url:
+            st.warning("Please enter a valid YouTube URL.")
+        elif not validate_youtube_url(youtube_video_url):
+            st.error("Invalid YouTube URL! Please enter a valid YouTube video link.")
+        else:
+            vid_id = video_id(youtube_video_url)
+            
+            # Custom progress indicator
+            progress_text = st.empty()
+            progress_bar = st.progress(0)
+            
+            transcript = extract_transcript(vid_id, progress_text)
+            summary = summarize_transcript(transcript, sum_length, progress_bar, progress_text)
+
+            # Display summary in markdown for better formatting
+            st.subheader("Summary")
+            st.markdown(summary, unsafe_allow_html=True)  # Allows HTML for better formatting
+            
+            # Add download PDF button
+            pdf = create_pdf(summary)
+            st.download_button(
+                label="Download Summary as PDF",
+                data=pdf,
+                file_name="summary.pdf",
+                mime="application/pdf"
+            )
+
+elif option == "Video Analyzer":
+    st.title("YouTube Video Analyzer 🔍📊")
+    st.markdown("Get various details and insights from a YouTube video.")
+
+    youtube_video_url = st.text_input("Enter YouTube Video URL for Analysis")
+
+    if st.button("Analyze Video"):
+        if not youtube_video_url:
+            st.warning("Please enter a valid YouTube URL.")
+        elif not validate_youtube_url(youtube_video_url):
+            st.error("Invalid YouTube URL! Please enter a valid YouTube video link.")
+        else:
+            vid_id = video_id(youtube_video_url)
+            
+            # Placeholder for Video Analyzer functionality (e.g., fetch video details like views, likes, etc.)
+            st.write(f"Analyzing video with ID: {vid_id}...")
+            # Here, you can integrate an API to fetch video analytics details like views, likes, etc.
+            # For example, using the YouTube Data API to fetch stats or adding additional details like video length, comments, etc.
+            st.success("Video Analysis results are coming soon!")
