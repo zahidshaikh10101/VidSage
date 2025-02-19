@@ -108,7 +108,8 @@ st.sidebar.title("VidSage 🎬")
 option = st.sidebar.selectbox("🔍 Select Page", ["📄 Video Summarizer", "📊 Video Analyzer", "⬇️ Video Downloader"])
 
 if option == "📄 Video Summarizer":
-    st.title("YouTube Video Summarizer 🎥📄")
+    st.title("VidSage 🎬")
+    st.subheader("YouTube Video Summarizer 🎥📄")
     st.markdown("📝 Extract and summarize from YouTube videos.")
 
     # Input fields
@@ -144,7 +145,8 @@ if option == "📄 Video Summarizer":
             )
 
 elif option == "📊 Video Analyzer":
-    st.title("YouTube Video Analyzer 🔍📊")
+    st.title("VidSage 🎬")
+    st.subheader("YouTube Video Analyzer 🔍📊")
     st.markdown("📊 Get various details and insights from a YouTube video.")
 
     youtube_video_url = st.text_input("🔗 Enter YouTube Video URL for Analysis")
@@ -248,4 +250,5 @@ elif option == "📊 Video Analyzer":
                 st.error("❌ Failed to fetch video details. Please try again later.")
 
 elif option == "⬇️ Video Downloader":
-    st.title("📥 Please wait")
+    st.title("VidSage 🎬")
+    st.subheader("📥 Please wait")
