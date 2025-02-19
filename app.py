@@ -251,4 +251,15 @@ elif option == "📊 Video Analyzer":
 
 elif option == "⬇️ Video Downloader":
     st.title("VidSage 🎬")
-    st.subheader("📥 Please wait")
+    st.subheader("YouTube Video Downloader 🔍📊")
+    st.markdown("🛠️ Download YouTube videos in various formats easily.")
+
+    youtube_video_url = st.text_input("🔗 Enter YouTube Video URL for Analysis")
+
+    if st.button("🔍 Analyze Video"):
+        if not youtube_video_url:
+            st.warning("⚠️ Please enter a valid YouTube URL.")
+        elif not validate_youtube_url(youtube_video_url):
+            st.error("❌ Invalid YouTube URL! Please enter a valid YouTube video link.")
+        else:
+            vid_id = video_id(youtube_video_url)
