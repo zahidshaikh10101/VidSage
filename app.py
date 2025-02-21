@@ -17,7 +17,7 @@ import os
 import requests
 
 # Configure Google Generative AI
-genai.configure(api_key="AIzaSyBe8oTPpsp8m3u1wshx9r2ahICrGWwqYrc")
+genai.configure(api_key="") # Enter your api key
 
 # Function to validate YouTube URL
 def validate_youtube_url(url):
@@ -163,7 +163,7 @@ elif option == "📊 Video Analyzer":
             api_url = "https://youtube-media-downloader.p.rapidapi.com/v2/video/details"
             querystring = {"videoId": vid_id}
             headers = {
-                "x-rapidapi-key": "702a4be6f6msh4fbca242aae430ap194bcfjsn87401b780075",
+                "x-rapidapi-key": "", #enter your api key
                 "x-rapidapi-host": "youtube-media-downloader.p.rapidapi.com"
             }
 
@@ -267,7 +267,7 @@ elif option == "📥 Video Downloader":
             api_url = "https://youtube-media-downloader.p.rapidapi.com/v2/video/details"
             querystring = {"videoId": vid_id}
             headers = {
-                "x-rapidapi-key": "702a4be6f6msh4fbca242aae430ap194bcfjsn87401b780075",
+                "x-rapidapi-key": "", #enter your api key
                 "x-rapidapi-host": "youtube-media-downloader.p.rapidapi.com"
             }
 
