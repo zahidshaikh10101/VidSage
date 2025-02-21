@@ -1,5 +1,6 @@
-streamlit==1.20.0
-pandas==1.5.3
-youtube-transcript-api==0.4.1
-google-generativeai==0.1.0
-reportlab==3.6.12
+streamlit
+pandas
+youtube-transcript-api
+google-generativeai
+requests
+reportlab
