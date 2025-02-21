@@ -105,7 +105,7 @@ def create_pdf(summary_text):
 
 # Streamlit App UI
 st.sidebar.title("VidSage 🎬")
-option = st.sidebar.selectbox("🔍 Select Page", ["📄 Video Summarizer", "📊 Video Analyzer", "⬇️ Video Downloader"])
+option = st.sidebar.selectbox("🔍 Select Page", ["📄 Video Summarizer", "📊 Video Analyzer", "📥 Video Downloader"])
 
 if option == "📄 Video Summarizer":
     st.title("VidSage 🎬")
@@ -249,17 +249,97 @@ elif option == "📊 Video Analyzer":
             else:
                 st.error("❌ Failed to fetch video details. Please try again later.")
 
-elif option == "⬇️ Video Downloader":
+elif option == "📥 Video Downloader":
     st.title("VidSage 🎬")
-    st.subheader("YouTube Video Downloader 🔍📊")
-    st.markdown("🛠️ Download YouTube videos in various formats easily.")
+    st.subheader("YouTube Video Downloader 🔍")
+    st.markdown("⚡ Download YouTube videos in various formats easily.")
 
     youtube_video_url = st.text_input("🔗 Enter YouTube Video URL for Analysis")
 
-    if st.button("🔍 Analyze Video"):
+    if st.button("🚀 Start Download"):
         if not youtube_video_url:
             st.warning("⚠️ Please enter a valid YouTube URL.")
         elif not validate_youtube_url(youtube_video_url):
             st.error("❌ Invalid YouTube URL! Please enter a valid YouTube video link.")
         else:
             vid_id = video_id(youtube_video_url)
+
+            api_url = "https://youtube-media-downloader.p.rapidapi.com/v2/video/details"
+            querystring = {"videoId": vid_id}
+            headers = {
+                "x-rapidapi-key": "702a4be6f6msh4fbca242aae430ap194bcfjsn87401b780075",
+                "x-rapidapi-host": "youtube-media-downloader.p.rapidapi.com"
+            }
+
+            response = requests.get(api_url, headers=headers, params=querystring)
+            if response.status_code == 200:
+                video_data = response.json()
+                
+                # Parse JSON response
+                video_id = video_data.get("id", "N/A")
+                title = video_data.get("title", "N/A")
+                thumbnail = video_data.get("thumbnails", [{}])[4].get("url", "")
+                videos = video_data.get("videos", {}).get("items", [])  
+                audios = video_data.get("audios", {}).get("items", [])
+
+                st.markdown(f"<h2 style='font-size:24px;'><b>Title:</b>🎥 {title}</h2>", unsafe_allow_html=True)
+                st.write("Available Video Downloads")
+                
+                for i, video in enumerate(videos[:7]):  # Show only top 5 video options
+                    download_url = video.get("url", "")
+                    download_mb = video.get("sizeText", "N/A")
+                    download_quality = video.get("quality", "N/A")
+                    download_extension = video.get("extension", "N/A")
+                    
+                    st.markdown(
+                        f"""
+                        <div style="border: 1px solid #444; padding: 10px; border-radius: 8px; margin-bottom: 10px; background-color: #222; display: flex; align-items: center;">
+                            <img src="{thumbnail}" width="160px" style="border-radius: 5px; margin-right: 15px;">
+                            <div>
+                                <p style="margin: 5px 0; font-size:16px;"><b>📂 Size:</b> {download_mb} | <b>🎞 Quality:</b> {download_quality} | <b>📀 Format:</b> {download_extension}</p>
+                                <a href="{download_url}" style="display: inline-block; padding: 5px 12px; background-color: #FF0000; color: white; text-decoration: none; font-weight: bold; border-radius: 4px; font-size: 14px; margin-top: 5px;">⬇️ Download</a>
+                            </div>
+                        </div>
+                        """,
+                        unsafe_allow_html=True,
+                    )
+                st.markdown('---')
+                st.write("Available Audio Downloads")
+                for i, audio in enumerate(audios[:5]):  # Show only top 5 video options
+                    download_url = audio.get("url", "")
+                    download_mb = audio.get("sizeText", "N/A")
+                    download_extension = audio.get("extension", "N/A")
+                    
+                    st.markdown(
+                        f"""
+                        <div style="border: 1px solid #444; padding: 10px; border-radius: 8px; margin-bottom: 10px; background-color: #222; display: flex; align-items: center;">
+                            <img src="{thumbnail}" width="160px" style="border-radius: 5px; margin-right: 15px;">
+                            <div>
+                                <p style="margin: 5px 0; font-size:16px;"><b>📂 Size:</b> {download_mb} | <b>📀 Format:</b> {download_extension}</p>
+                                <a href="{download_url}" style="display: inline-block; padding: 5px 12px; background-color: #FF0000; color: white; text-decoration: none; font-weight: bold; border-radius: 4px; font-size: 14px; margin-top: 5px;">⬇️ Download</a>
+                            </div>
+                        </div>
+                        """,
+                        unsafe_allow_html=True,
+                    )
+
+st.sidebar.markdown(
+    """
+    <style>
+    div[data-testid="stSidebar"] {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100vh;
+        padding-top: 200px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
+# Footer message at the bottom of the sidebar
+st.sidebar.markdown(
+    "<p style='text-align: center; font-size: 14px;'>Made with ❤️ by Zahid Salim Shaikh</p>",
+    unsafe_allow_html=True,
+)
