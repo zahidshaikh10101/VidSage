@@ -72,6 +72,9 @@ VidSage includes **YouTube URL validation** to ensure that only correct YouTube 
 
 ## Screenshots
 <img width="557" alt="app" src="https://github.com/zahidshaikh10101/VidSage/blob/main/image/intro.png"> 
+<img width="557" alt="app" src="https://github.com/zahidshaikh10101/VidSage/blob/main/image/VS.png"> 
+<img width="557" alt="app" src="https://github.com/zahidshaikh10101/VidSage/blob/main/image/VA.png"> 
+<img width="557" alt="app" src="https://github.com/zahidshaikh10101/VidSage/blob/main/image/VD.png"> 
 
 
 ---
